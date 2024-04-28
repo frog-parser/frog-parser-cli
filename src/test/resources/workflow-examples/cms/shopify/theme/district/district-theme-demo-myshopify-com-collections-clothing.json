@@ -1,0 +1,320 @@
+{
+  "version": "1.0.0.0",
+  "acceptLanguage": "",
+  "commands": [
+    {
+      "@type": "SetConstantValueToVariableCommand",
+      "enabled": true,
+      "name": "set-implicitly-wait-variable-value",
+      "description": "",
+      "retryCount": 1,
+      "variableType": "Long",
+      "variable": {
+        "name": "implicitly-wait"
+      },
+      "value": {
+        "@type": "VariableValueLong",
+        "value": 3000
+      }
+    },
+    {
+      "@type": "SetImplicitlyWaitCommand",
+      "enabled": true,
+      "name": "set-implicitly-wait",
+      "description": "",
+      "retryCount": 1,
+      "variable": {
+        "name": "implicitly-wait"
+      }
+    },
+    {
+      "@type": "CreateDatasetCommand",
+      "enabled": true,
+      "name": "create-dataset",
+      "description": "",
+      "retryCount": 1,
+      "variable": {
+        "name": "dataset"
+      },
+      "metadata": {
+        "columns": [
+          {
+            "name": "page-number",
+            "type": "Integer"
+          },
+          {
+            "name": "product-title",
+            "type": "String"
+          },
+          {
+            "name": "product-price",
+            "type": "String"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "SetConstantValueToVariableCommand",
+      "enabled": true,
+      "name": "Set constant value to start-page variable",
+      "description": "",
+      "retryCount": 1,
+      "variableType": "Url",
+      "variable": {
+        "name": "start-page"
+      },
+      "value": {
+        "@type": "VariableValueUrl",
+        "value": "https://district-theme-demo.myshopify.com/collections/clothing"
+      }
+    },
+    {
+      "@type": "OpenWebPageCommand",
+      "enabled": true,
+      "name": "Open start-web-page",
+      "description": "",
+      "retryCount": 1,
+      "variable": {
+        "name": "start-page"
+      }
+    },
+    {
+      "@type": "SetConstantValueToVariableCommand",
+      "enabled": true,
+      "name": "set-handle-current-page-to-true",
+      "description": "",
+      "retryCount": 1,
+      "variableType": "Boolean",
+      "variable": {
+        "name": "handle-current-page"
+      },
+      "value": {
+        "@type": "VariableValueBoolean",
+        "value": true
+      }
+    },
+    {
+      "@type": "SetConstantValueToVariableCommand",
+      "enabled": true,
+      "name": "set-page-number",
+      "description": "",
+      "retryCount": 1,
+      "variableType": "Integer",
+      "variable": {
+        "name": "page-number"
+      },
+      "value": {
+        "@type": "VariableValueInteger",
+        "value": 0
+      }
+    },
+    {
+      "@type": "WhileLoopCommand",
+      "enabled": true,
+      "name": "do-while-handle-current-page",
+      "description": "",
+      "retryCount": 1,
+      "variable": {
+        "name": "handle-current-page"
+      },
+      "commands": [
+        {
+          "@type": "IncrementVariableCommand",
+          "enabled": true,
+          "name": "increment-page-number",
+          "description": "",
+          "retryCount": 1,
+          "variable": {
+            "name": "page-number"
+          }
+        },
+        {
+          "@type": "FindElementsCommand",
+          "enabled": true,
+          "name": "find-product-card-elements",
+          "description": "",
+          "retryCount": 1,
+          "findBy": {
+            "@type": "FindByTagName",
+            "value": "product-card"
+          },
+          "variable": {
+            "name": "product-card-elements"
+          }
+        },
+        {
+          "@type": "ForAllLoopCommand",
+          "enabled": true,
+          "name": "for-all-product-cards",
+          "description": "",
+          "retryCount": 1,
+          "variable": {
+            "name": "product-card-elements"
+          },
+          "itemVariable": {
+            "name": "product-card-element"
+          },
+          "commands": [
+            {
+              "@type": "FindChildElementCommand",
+              "enabled": true,
+              "name": "find-product-card-title-element",
+              "description": "",
+              "retryCount": 1,
+              "findBy": {
+                "@type": "FindByClassName",
+                "value": "product-card__title"
+              },
+              "variable": {
+                "name": "product-card-title-element"
+              },
+              "parentElementVariable": {
+                "name": "product-card-element"
+              }
+            },
+            {
+              "@type": "ReadPropertyCommand",
+              "enabled": true,
+              "name": "read-product-card-title-element",
+              "description": "",
+              "retryCount": 1,
+              "variable": {
+                "name": "product-card-title-element"
+              },
+              "property": {
+                "@type": "ElementPropertyText"
+              },
+              "newVariable": {
+                "name": "product-card-title-text"
+              }
+            },
+            {
+              "@type": "FindChildElementCommand",
+              "enabled": true,
+              "name": "find-product-card-price-element",
+              "description": "",
+              "retryCount": 1,
+              "findBy": {
+                "@type": "FindByCssSelector",
+                "value": ".price"
+              },
+              "variable": {
+                "name": "product-card-price-element"
+              },
+              "parentElementVariable": {
+                "name": "product-card-element"
+              }
+            },
+            {
+              "@type": "ReadPropertyCommand",
+              "enabled": true,
+              "name": "read-product-card-price-element",
+              "description": "",
+              "retryCount": 1,
+              "variable": {
+                "name": "product-card-price-element"
+              },
+              "property": {
+                "@type": "ElementPropertyText"
+              },
+              "newVariable": {
+                "name": "product-card-price-text"
+              }
+            },
+            {
+              "@type": "CreateDatasetRowCommand",
+              "enabled": true,
+              "name": "create-dataset-row",
+              "description": "",
+              "retryCount": 1,
+              "variable": {
+                "name": "dataset"
+              },
+              "columns": [
+                {
+                  "name": "page-number",
+                  "columnVariable": {
+                    "name": "page-number"
+                  }
+                },
+                {
+                  "name": "product-title",
+                  "columnVariable": {
+                    "name": "product-card-title-text"
+                  }
+                },
+                {
+                  "name": "product-price",
+                  "columnVariable": {
+                    "name": "product-card-price-text"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "SaveVariableCommand",
+              "enabled": true,
+              "name": "save-dataset",
+              "description": "",
+              "retryCount": 1,
+              "variable": {
+                "name": "dataset"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "CheckElementExistsCommand",
+          "enabled": true,
+          "name": "check-next-page-link-exists",
+          "description": "",
+          "retryCount": 1,
+          "findBy": {
+            "@type": "FindByCssSelector",
+            "value": "a[aria-label=\"Next page\"]"
+          },
+          "variable": {
+            "name": "handle-current-page"
+          }
+        },
+        {
+          "@type": "IfThenCommand",
+          "enabled": true,
+          "name": "if-next-page-link-exists",
+          "description": "",
+          "retryCount": 1,
+          "ifVariable": {
+            "name": "handle-current-page"
+          },
+          "thenCommands": [
+            {
+              "@type": "FindElementCommand",
+              "enabled": true,
+              "name": "find-next-page-link-element",
+              "description": "",
+              "retryCount": 1,
+              "findBy": {
+                "@type": "FindByCssSelector",
+                "value": "a[aria-label=\"Next page\"]"
+              },
+              "variable": {
+                "name": "next-page-link-element"
+              }
+            },
+            {
+              "@type": "ClickCommand",
+              "enabled": true,
+              "name": "click-by-next-page-link",
+              "description": "",
+              "retryCount": 1,
+              "variable": {
+                "name": "next-page-link-element"
+              },
+              "clickIfInvisible": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

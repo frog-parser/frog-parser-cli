@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: Frog Web Pages Parser
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+  main:
+    banner-mode: log
+
+frog:
+  flow:
+    execution:
+      flowExecutionTimeLimit: 3600000
+      maximumCommandExecutionsInFlowLimit: 10000000
+      maximumRecursionDepthLimit: 32
+      maximumRowsInListLimit: 100000
+      maximumRowsInDatasetLimit: 100000
+
+  selenium:
+    web-driver:
+      window:
+        size:
+          width: 1920
+          height: 1080
+      timeouts:
+        pageLoadTimeout: 60
+        scriptTimeout: 60
+        implicitlyWait: 60
+      type: LOCAL_CHROME
+      local-chrome:
+        driver-executable-path: c:/opt/selenium/chromedriver/123.0.6312.58/chromedriver.exe
+        executable-path: c:/Program Files/Google/Chrome/Application/chrome.exe
+        arguments:
+          - --disable-extensions
+          - --remote-allow-origins=*
+          - --user-agent=FrogWebParserBot/1.0
+          - --headless=new
+          - --disable-gpu
+          - --disk-cache-size=0
+          - --media-cache-size=0
+          - --disable-gpu-shader-disk-cache
+          - --incognito
+      remote-chrome:
+        url: http://localhost:4444/wd/hub
+        arguments:
+          - --disable-extensions
+          - --remote-allow-origins=*
+          - --user-agent=FrogWebParserBot/1.0
+          - --headless=new
+          - --disable-gpu
+          - --disk-cache-size=0
+          - --media-cache-size=0
+          - --disable-gpu-shader-disk-cache
+          - --incognito
+  zombie-process-killer:
+    active: false
+
+logging:
+  level:
+    root: error
+    com:
+      frogparser: debug
+  file:
+    name: c:/projects/frog-parser/frog-parser-cli/logs/application.log
+  threshold:
+    console: error
+
